@@ -43,14 +43,27 @@ td{border:1px solid #000;padding:10px;font-size:14px;}
 </select>
 
 <div id="resultArea" style="display:none;">
+
 <table>
 <tr><td><b>NAME</b></td><td id="sname"></td></tr>
 <tr><td><b>CLASS</b></td><td id="sclass"></td></tr>
 </table>
 
 <table id="subjectTable"></table>
-</div>
 
+<!-- ATTENDANCE TABLE -->
+<table>
+<tr>
+ <td><b>ATTENDANCE</b></td>
+ <td id="attendanceTotal"></td>
+</tr>
+<tr>
+ <td><b>PRESENT</b></td>
+ <td id="attendancePresent"></td>
+</tr>
+</table>
+
+</div>
 </div>
 
 <script>
@@ -66,53 +79,19 @@ const classSubjects={
  "+1":["FIQH","LISAN","THAFSEER","DUROOS"]
 };
 
-/* STUDENTS – FULL LIST (NO MISSING) */
+/* STUDENTS */
 const classStudents={
- "1":[
-  "MUHAMMED SHADIL","NASIH SUNEER K P C","AYAN ASIF",
-  "INAAYA FATHIMA T K","HIZA FATHIMA","ARWA AFSAL"
- ],
- "2":[
-  "DULQUER AZAN","MUHAMMED HANIH M","MUHAMMED SWALIH K P",
-  "MUHAMMED HANAN C P","MUHAMMED HADHI K","ZIFRAN P P",
-  "MUHAMMED FAIZAN","IMAD T.K","AJVA FATHIMA V V",
-  "JUWAIRIYA MUHAMMED","RINSHA FATHIMA C P","AYISHA M V",
-  "HANA FATHIMA K","RINZA RASHEED","ZAHRA FATHIMA"
- ],
- "3":[
-  "MUHAMMED SHAHAN K S","FAHAD B NOOR","MUHAMMED HAMDAN E K",
-  "HANI ABDULLA M","MUHAMMED C A","JAZLAN MUHAMMAD M P",
-  "MUHAMMED QASIM K M","IMRAN","LAIBA FATHIMA",
-  "AYISHA JUMANA","MARIYAMBI","MIHRA MARIYAM M K",
-  "KHADEEJATHUL KUBRA M","FATHIMATH ZANHA SHAFEEK",
-  "HUSNA ASHRAF O.V","ZAINAB AFSAL"
- ],
- "4":[
-  "MUHAMMAD C","MUHAMMED RAZEEN C K","BISHRUL HAFI O",
-  "MUHAMMAD HASAN K K","MUHAMMAD ASIF T P","MUHAMMAD SHEZIN K S",
-  "FATHIMA SAYEED","FATHIMA HIBA A M","NAJIYA YASMIN",
-  "FATHIMA P C","FATHIMA C P","NADIYA O",
-  "FATHIMATHU JUMANA KP","FATHIMATH ZAHRA"
- ],
- "6":[
-  "MUHAMMED ADIL T P","SHEZIN",
-  "SHAHANA FATHIMA P M","FATHIMATH NAFLA P M"
- ],
- "8":[
-  "FADIY SAYEED","MUHAMMED NIHAL OK","MUHAMMED NABHAN O",
-  "KAMAL SHAHARUZE","MUHAMMED JALAL K K","UMMARUL FAROOQ",
-  "MUHAMMED SHAMNAS K.S","AYISHABI C","FATHIMA FIDA A M",
-  "FATHIMA AFRA","AYISHA T K","FATHIMA RILA",
-  "FAHMI O","ZIYA FATHIMA P P"
- ],
- "9":[
-  "MUHAMMED JALAL M","SALMABI C P",
-  "ASMABI C P","NAJA FATHIMA O V","AYISHABI T"
- ],
+ "1":["MUHAMMED SHADIL","NASIH SUNEER K P C","AYAN ASIF","INAAYA FATHIMA T K","HIZA FATHIMA","ARWA AFSAL"],
+ "2":["DULQUER AZAN","MUHAMMED HANIH M","MUHAMMED SWALIH K P","MUHAMMED HANAN C P","MUHAMMED HADHI K","ZIFRAN P P","MUHAMMED FAIZAN","IMAD T.K","AJVA FATHIMA V V","JUWAIRIYA MUHAMMED","RINSHA FATHIMA C P","AYISHA M V","HANA FATHIMA K","RINZA RASHEED","ZAHRA FATHIMA"],
+ "3":["MUHAMMED SHAHAN K S","FAHAD B NOOR","MUHAMMED HAMDAN E K","HANI ABDULLA M","MUHAMMED C A","JAZLAN MUHAMMAD M P","MUHAMMED QASIM K M","IMRAN","LAIBA FATHIMA","AYISHA JUMANA","MARIYAMBI","MIHRA MARIYAM M K","KHADEEJATHUL KUBRA M","FATHIMATH ZANHA SHAFEEK","HUSNA ASHRAF O.V","ZAINAB AFSAL"],
+ "4":["MUHAMMAD C","MUHAMMED RAZEEN C K","BISHRUL HAFI O","MUHAMMAD HASAN K K","MUHAMMAD ASIF T P","MUHAMMAD SHEZIN K S","FATHIMA SAYEED","FATHIMA HIBA A M","NAJIYA YASMIN","FATHIMA P C","FATHIMA C P","NADIYA O","FATHIMATHU JUMANA KP","FATHIMATH ZAHRA"],
+ "6":["MUHAMMED ADIL T P","SHEZIN","SHAHANA FATHIMA P M","FATHIMATH NAFLA P M"],
+ "8":["FADIY SAYEED","MUHAMMED NIHAL OK","MUHAMMED NABHAN O","KAMAL SHAHARUZE","MUHAMMED JALAL K K","UMMARUL FAROOQ","MUHAMMED SHAMNAS K.S","AYISHABI C","FATHIMA FIDA A M","FATHIMA AFRA","AYISHA T K","FATHIMA RILA","FAHMI O","ZIYA FATHIMA P P"],
+ "9":["MUHAMMED JALAL M","SALMABI C P","ASMABI C P","NAJA FATHIMA O V","AYISHABI T"],
  "+1":["MUHSIN"]
 };
 
-/* LOAD STUDENTS */
+/* FUNCTIONS */
 function loadStudents(){
  studentSelect.innerHTML=`<option value="">-- Select Student --</option>`;
  resultArea.style.display="none";
@@ -121,10 +100,8 @@ function loadStudents(){
  });
 }
 
-/* RANDOM MARK (18–30) */
-function randomMark(){
- return Math.floor(Math.random()*13)+18;
-}
+function randomMark(){ return Math.floor(Math.random()*13)+18; }
+function randomAttendance(){ return Math.floor(Math.random()*40)+130; }
 
 /* SHOW RESULT */
 function showResult(){
@@ -149,6 +126,9 @@ function showResult(){
  subjectTable.innerHTML+=`
  <tr class="total-row"><td>TOTAL</td><td>${total}</td></tr>
  <tr><td colspan="2" class="result ${pass?"pass":"fail"}">${pass?"PASSED":"FAILED"}</td></tr>`;
+
+ attendanceTotal.innerText="180";
+ attendancePresent.innerText=randomAttendance();
 }
 </script>
 
