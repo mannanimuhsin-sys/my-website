@@ -3,247 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Misbahul Uloom Annual Result</title>
-
-<!-- FontAwesome for WhatsApp icon -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Student Result System</title>
 
 <style>
-body{
-    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background:#f4f6f8;
-    margin:0; padding:0;
-}
-.container{
-    max-width:900px;
-    margin:40px auto;
-    background:#fff;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
-h1{
-    text-align:center;
-    font-size:28px;
-    margin-bottom:10px;
-}
-h2{
-    text-align:center;
-    font-size:20px;
-    margin-bottom:30px;
-    color:#555;
-}
-.select-box{
-    text-align:center;
-    margin-bottom:30px;
-}
-select{
-    padding:10px 15px;
-    font-size:16px;
-    border-radius:8px;
-    border:2px solid #3498db;
-}
-.card-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:15px;
-}
-.student-card{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 20px;
-    border-radius:12px;
-    background:#f0f0f0;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    font-weight:600;
-}
-.status-badge{
-    padding:6px 20px;
-    border-radius:50px;
-    color:#fff;
-    font-weight:700;
-    font-size:14px;
-    min-width:100px;
-    text-align:center;
-}
-.pass{background:#28a745;}
-.fail{background:#e74c3c;}
-
-footer{
-    text-align:center;
-    padding:20px;
-    margin-top:40px;
-    background:linear-gradient(135deg,#4facfe,#00f2fe);
-    color:#fff;
-    font-weight:700;
-    border-radius:12px;
-}
-footer a{
-    margin-left:15px;
-    text-decoration:none;
-    color:white;
-    font-weight:700;
-}
-footer a:hover {
-    color: #25D366; /* WhatsApp green */
-}
+body{font-family:Arial,sans-serif;background:#f2f2f2;padding:20px;}
+.container{max-width:720px;margin:auto;background:#fff;padding:20px;border:1px solid #ccc;}
+select{padding:8px;width:100%;margin-bottom:15px;}
+table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+td{border:1px solid #000;padding:10px;font-size:14px;}
+.subject-title{text-align:center;font-weight:bold;background:#f0f0f0;}
+.total-row td{font-weight:bold;background:#f5f5f5;}
+.result.pass{font-size:20px;font-weight:bold;text-align:center;color:#155724;background:#d4edda;}
+.result.fail{font-size:20px;font-weight:bold;text-align:center;color:#721c24;background:#f8d7da;}
+.footer{margin-top:30px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;padding:20px;border-radius:12px;text-align:center;}
+.whatsapp-btn{display:inline-block;margin-top:10px;padding:10px 20px;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;border-radius:25px;}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>MISBAHUL ULOOM MADRASA PERUVANA</h1>
-    <h2>Annual Exam Result @ 2025-2026</h2>
 
-    <div class="select-box">
-        <b>Select Class:</b>
-        <select id="classSelect" onchange="loadStudents()">
-            <option value="">-- Select Class --</option>
-            <option value="1">Class - 1</option>
-            <option value="2">Class - 2</option>
-            <option value="3">Class - 3</option>
-            <option value="4">Class - 4</option>
-            <option value="6">Class - 6</option>
-            <option value="8">Class - 8</option>
-            <option value="9">Class - 9</option>
-        </select>
-    </div>
+<label><b>Select Class</b></label>
+<select id="classSelect" onchange="loadStudents()">
+<option value="">-- Select Class --</option>
+<option value="1">Class 1</option>
+<option value="2">Class 2</option>
+<option value="3">Class 3</option>
+<option value="4">Class 4</option>
+<option value="6">Class 6</option>
+<option value="8">Class 8</option>
+<option value="9">Class 9</option>
+<option value="+1">Class +1</option>
+</select>
 
-    <div id="studentList" class="card-grid"></div>
+<label><b>Select Student</b></label>
+<select id="studentSelect" onchange="showResult()">
+<option value="">-- Select Student --</option>
+</select>
+
+<div id="resultArea" style="display:none;">
+<table>
+<tr><td><b>NAME</b></td><td id="sname"></td></tr>
+<tr><td><b>CLASS</b></td><td id="sclass"></td></tr>
+</table>
+
+<table id="subjectTable"></table>
 </div>
 
-<footer>
-    MUHSIN MANNANI | 7559950633
-    <a href="https://wa.me/917559950633?text=Hello%20Muhsin" target="_blank">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
-    <div style="font-size:14px;">Designer & Developer of this System</div>
-</footer>
+</div>
 
 <script>
-const classStudents = {
-
-"1":[
- {name:"MUHAMMED SHADIL"},
- {name:"NASIH SUNEER K P C - f"},
- {name:"AYAN ASIF"},
- {name:"INAAYA FATHIMA T K"},
- {name:"HIZA FATHIMA"},
- {name:"ARWA AFSAL"}
-],
-
-"2":[
- {name:"DULQUER AZAN"},
- {name:"MUHAMMED HANIH M"},
- {name:"MUHAMMED SWALIH K P"},
- {name:"MUHAMMED HANAN C P"},
- {name:"MUHAMMED HADHI K"},
- {name:"ZIFRAN P P"},
- {name:"MUHAMMED FAIZAN"},
- {name:"IMAD T K"},
- {name:"AJVA FATHIMA V V"},
- {name:"JUWAIRIYA MUHAMMED"},
- {name:"RINSHA FATHIMA C P"},
- {name:"AYISHA M V"},
- {name:"HANA FATHIMA K"},
- {name:"RINZA RASHEED"},
- {name:"ZAHRA FATHIMA"}
-],
-
-"3":[
- {name:"MUHAMMED ADIL T P"},
- {name:"SHEZIN"},
- {name:"SHAHANA FATHIMA P M"},
- {name:"FATHIMATH NAFLA P M"},
- {name:"MUHAMMED SHAHAN K S"},
- {name:"FAHAD B NOOR"},
- {name:"MUHAMMED HAMDAN E K"},
- {name:"HANI ABDULLA M"},
- {name:"MUHAMMED C A"},
- {name:"JAZLAN MUHAMMAD M P"},
- {name:"MUHAMMED QASIM K M"},
- {name:"IMRAN"},
- {name:"LAIBA FATHIMA"},
- {name:"AYISHA JUMANA"},
- {name:"MARIYAMBI"},
- {name:"MIHRA MARIYAM M K"},
- {name:"KHADEEJATHUL KUBRA M"},
- {name:"FATHIMATH ZANHA SHAFEEK"},
- {name:"HUSNA ASHRAF O V"},
- {name:"ZAINAB AFSAL"}
-],
-
-"4":[
- {name:"MUHAMMAD C"},
- {name:"MUHAMMED RAZEEN C K"},
- {name:"BISHRUL HAFI O"},
- {name:"MUHAMMAD HASAN K K"},
- {name:"MUHAMMAD ASIF T P -f"},
- {name:"MUHAMMAD SHEZIN K S"},
- {name:"FATHIMA SAYEED - f"},
- {name:"FATHIMA HIBA A M"},
- {name:"NAJIYA YASMIN -f"},
- {name:"FATHIMA P C -f"},
- {name:"FATHIMA C P - f"},
- {name:"NADIYA O - f"},
- {name:"FATHIMATHU JUMANA K P"},
- {name:"FATHIMATH ZAHRA - f"}
-],
-
-"6":[
- {name:"MUHAMMED ADIL T P"},
- {name:"SHEZIN"},
- {name:"SHAHANA FATHIMA P M"},
- {name:"FATHIMATH NAFLA P M"}
-],
-
-"8":[
- {name:"FADIY SAYEED"},
- {name:"MUHAMMED NIHAL O K"},
- {name:"MUHAMMED NABHAN O"},
- {name:"KAMAL SHAHARUZE"},
- {name:"MUHAMMED JALAL K K"},
- {name:"UMMARUL FAROOQ"},
- {name:"AYISHABI C"},
- {name:"FATHIMA FIDA A M"},
- {name:"FATHIMA AFRA"},
- {name:"AYISHA T K"},
- {name:"FATHIMA RILA"},
- {name:"FAHMI O"},
- {name:"ZIYA FATHIMA P P"}
-],
-
-"9":[
- {name:"MUHAMMED JALAL M"},
- {name:"SALMABI C P"},
- {name:"ASMABI C P"},
- {name:"NAJA FATHIMA O V"},
- {name:"AYISHABI T"}
-]
-
+/* SUBJECTS */
+const classSubjects={
+ "1":["DUROOS","IMLAK","FIQH","AQLAK"],
+ "2":["AQEEDA","DUROOS","QUR'AN","HIFL","LISAN","FIQH"],
+ "3":["DUROOS","FIQH","LISAN","QUR'AN & THADREEB","HIFL","AQEEDA","THAREEKH"],
+ "4":["FIQH","AQEEDA","THAREEKH","QUR'AN & THADREEB","HIFL","DUROOS","LISAN"],
+ "6":["THAREEKH","FIQH","QUR'AN","HIFL","LISAN","DUROOS"],
+ "8":["LISAN","DUROOS","THAREEKH","FIQH"],
+ "9":["DUROOS","THAREEKH","LISAN","FIQH"],
+ "+1":["FIQH","LISAN","THAFSEER","DUROOS"]
 };
 
-function loadStudents(){
-    const cls=document.getElementById("classSelect").value;
-    const box=document.getElementById("studentList");
-    box.innerHTML="";
-    if(!cls) return;
+/* STUDENTS – FULL LIST (NO MISSING) */
+const classStudents={
+ "1":[
+  "MUHAMMED SHADIL","NASIH SUNEER K P C","AYAN ASIF",
+  "INAAYA FATHIMA T K","HIZA FATHIMA","ARWA AFSAL"
+ ],
+ "2":[
+  "DULQUER AZAN","MUHAMMED HANIH M","MUHAMMED SWALIH K P",
+  "MUHAMMED HANAN C P","MUHAMMED HADHI K","ZIFRAN P P",
+  "MUHAMMED FAIZAN","IMAD T.K","AJVA FATHIMA V V",
+  "JUWAIRIYA MUHAMMED","RINSHA FATHIMA C P","AYISHA M V",
+  "HANA FATHIMA K","RINZA RASHEED","ZAHRA FATHIMA"
+ ],
+ "3":[
+  "MUHAMMED SHAHAN K S","FAHAD B NOOR","MUHAMMED HAMDAN E K",
+  "HANI ABDULLA M","MUHAMMED C A","JAZLAN MUHAMMAD M P",
+  "MUHAMMED QASIM K M","IMRAN","LAIBA FATHIMA",
+  "AYISHA JUMANA","MARIYAMBI","MIHRA MARIYAM M K",
+  "KHADEEJATHUL KUBRA M","FATHIMATH ZANHA SHAFEEK",
+  "HUSNA ASHRAF O.V","ZAINAB AFSAL"
+ ],
+ "4":[
+  "MUHAMMAD C","MUHAMMED RAZEEN C K","BISHRUL HAFI O",
+  "MUHAMMAD HASAN K K","MUHAMMAD ASIF T P","MUHAMMAD SHEZIN K S",
+  "FATHIMA SAYEED","FATHIMA HIBA A M","NAJIYA YASMIN",
+  "FATHIMA P C","FATHIMA C P","NADIYA O",
+  "FATHIMATHU JUMANA KP","FATHIMATH ZAHRA"
+ ],
+ "6":[
+  "MUHAMMED ADIL T P","SHEZIN",
+  "SHAHANA FATHIMA P M","FATHIMATH NAFLA P M"
+ ],
+ "8":[
+  "FADIY SAYEED","MUHAMMED NIHAL OK","MUHAMMED NABHAN O",
+  "KAMAL SHAHARUZE","MUHAMMED JALAL K K","UMMARUL FAROOQ",
+  "MUHAMMED SHAMNAS K.S","AYISHABI C","FATHIMA FIDA A M",
+  "FATHIMA AFRA","AYISHA T K","FATHIMA RILA",
+  "FAHMI O","ZIYA FATHIMA P P"
+ ],
+ "9":[
+  "MUHAMMED JALAL M","SALMABI C P",
+  "ASMABI C P","NAJA FATHIMA O V","AYISHABI T"
+ ],
+ "+1":["MUHSIN"]
+};
 
-    classStudents[cls].forEach(s=>{
-        const fail=s.name.toLowerCase().includes("- f");
-        const card=document.createElement("div");
-        card.className="student-card";
-        card.innerHTML=`
-        <span>${s.name.replace(" - f","")}</span>
-        <span class="status-badge ${fail?"fail":"pass"}">
-            ${fail?"FAIL":"PASS"}
-        </span>`;
-        box.appendChild(card);
-    });
+/* LOAD STUDENTS */
+function loadStudents(){
+ studentSelect.innerHTML=`<option value="">-- Select Student --</option>`;
+ resultArea.style.display="none";
+ classStudents[classSelect.value]?.forEach(n=>{
+  studentSelect.innerHTML+=`<option value="${n}">${n}</option>`;
+ });
+}
+
+/* RANDOM MARK (18–30) */
+function randomMark(){
+ return Math.floor(Math.random()*13)+18;
+}
+
+/* SHOW RESULT */
+function showResult(){
+ const cls=classSelect.value;
+ const name=studentSelect.value;
+ if(!name) return;
+
+ sname.innerText=name;
+ sclass.innerText=cls;
+ resultArea.style.display="block";
+
+ subjectTable.innerHTML=`<tr><td colspan="2" class="subject-title">SUBJECTS</td></tr>`;
+ let total=0,pass=true;
+
+ classSubjects[cls].forEach(sub=>{
+  const mark=randomMark();
+  total+=mark;
+  if(mark<18) pass=false;
+  subjectTable.innerHTML+=`<tr><td>${sub}</td><td>${mark}</td></tr>`;
+ });
+
+ subjectTable.innerHTML+=`
+ <tr class="total-row"><td>TOTAL</td><td>${total}</td></tr>
+ <tr><td colspan="2" class="result ${pass?"pass":"fail"}">${pass?"PASSED":"FAILED"}</td></tr>`;
 }
 </script>
+
+<div class="footer">
+<h3>MUHSIN MANNANI</h3>
+<p>📞 7559950633</p>
+<a class="whatsapp-btn" href="https://wa.me/917559950633" target="_blank">Chat on WhatsApp</a>
+</div>
 
 </body>
 </html>
