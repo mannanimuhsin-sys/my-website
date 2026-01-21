@@ -22,8 +22,8 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     color:white;
-    margin-bottom:30px;
-    padding:90px 20px;
+    margin-bottom:25px;
+    padding:80px 10px;
 }
 
 /* CONTENT BOX */
@@ -48,13 +48,33 @@ footer span{
     color:#f1c40f;
     font-weight:600;
 }
+
+/* =========================
+   📱 MOBILE HEADER FIX
+   ========================= */
+@media (max-width: 768px){
+
+    .jumbotron{
+        padding:40px 15px;   /* header height കുറയ്ക്കുന്നു */
+    }
+
+    .jumbotron h1{
+        font-size:24px;     /* madrasa name size */
+        margin-bottom:5px;
+    }
+
+    .jumbotron h2{
+        font-size:16px;     /* place name size */
+        margin-top:0;
+    }
+}
 </style>
 </head>
 
 <body>
 
 <!-- HEADER WITH PHOTO BACKGROUND -->
-<div style="background-color: darkslateblue;" class="jumbotron text-center">
+<div style="background-color: rgb(38, 9, 227);" class="jumbotron text-center">
     <h1>MISBAHUL ULOOM MADRASA</h1>
     <h2>PERUVANA</h2>
 </div>
