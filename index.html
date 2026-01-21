@@ -7,22 +7,31 @@
 
 <style>
 body{font-family:Arial,sans-serif;background:#f2f2f2;padding:20px;}
-.container{max-width:720px;margin:auto;background:#fff;padding:20px;border:1px solid #ccc;}
+.container{max-width:760px;margin:auto;background:#fff;padding:20px;border:1px solid #ccc;}
+h1{text-align:center;margin-bottom:5px;}
+h2{text-align:center;font-size:16px;margin-top:0;color:#555;}
 select{padding:8px;width:100%;margin-bottom:15px;}
 table{width:100%;border-collapse:collapse;margin-bottom:15px;}
-td{border:1px solid #000;padding:10px;font-size:14px;}
+td{border:1px solid #000;padding:8px;font-size:14px;}
 .subject-title{text-align:center;font-weight:bold;background:#f0f0f0;}
 .total-row td{font-weight:bold;background:#f5f5f5;}
-.result.pass{font-size:20px;font-weight:bold;text-align:center;color:#155724;background:#d4edda;}
-.result.fail{font-size:20px;font-weight:bold;text-align:center;color:#721c24;background:#f8d7da;}
-.footer{margin-top:30px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;padding:20px;border-radius:12px;text-align:center;}
-.whatsapp-btn{display:inline-block;margin-top:10px;padding:10px 20px;background:#25D366;color:#fff;text-decoration:none;font-weight:bold;border-radius:25px;}
+.result.pass{text-align:center;font-size:18px;color:#155724;background:#d4edda;}
+.result.fail{text-align:center;font-size:18px;color:#721c24;background:#f8d7da;}
+.download-btn{display:block;text-align:center;margin:15px auto;padding:10px 25px;
+background:#28a745;color:#fff;font-weight:bold;text-decoration:none;border-radius:25px;}
+.footer{margin-top:30px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:#fff;padding:20px;border-radius:12px;text-align:center;}
+.whatsapp-btn{display:inline-block;margin-top:10px;padding:10px 20px;
+background:#25D366;color:#fff;text-decoration:none;font-weight:bold;border-radius:25px;}
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
+<h1>MISBAHUL ULOOM MADRASA PERUVANA</h1>
+<h2>ANNUAL EXAM RESULT @2025-2026</h2>
 
 <label><b>Select Class</b></label>
 <select id="classSelect" onchange="loadStudents()">
@@ -51,17 +60,12 @@ td{border:1px solid #000;padding:10px;font-size:14px;}
 
 <table id="subjectTable"></table>
 
-<!-- ATTENDANCE TABLE -->
 <table>
-<tr>
- <td><b>ATTENDANCE</b></td>
- <td id="attendanceTotal"></td>
-</tr>
-<tr>
- <td><b>PRESENT</b></td>
- <td id="attendancePresent"></td>
-</tr>
+<tr><td><b>TOTAL ATTENDANCE</b></td><td id="attTotal"></td></tr>
+<tr><td><b>PRESENT</b></td><td id="attPresent"></td></tr>
 </table>
+
+<a class="download-btn" onclick="window.print()">DOWNLOAD</a>
 
 </div>
 </div>
@@ -79,29 +83,31 @@ const classSubjects={
  "+1":["FIQH","LISAN","THAFSEER","DUROOS"]
 };
 
-/* STUDENTS */
-const classStudents={
- "1":["MUHAMMED SHADIL","NASIH SUNEER K P C","AYAN ASIF","INAAYA FATHIMA T K","HIZA FATHIMA","ARWA AFSAL"],
- "2":["DULQUER AZAN","MUHAMMED HANIH M","MUHAMMED SWALIH K P","MUHAMMED HANAN C P","MUHAMMED HADHI K","ZIFRAN P P","MUHAMMED FAIZAN","IMAD T.K","AJVA FATHIMA V V","JUWAIRIYA MUHAMMED","RINSHA FATHIMA C P","AYISHA M V","HANA FATHIMA K","RINZA RASHEED","ZAHRA FATHIMA"],
- "3":["MUHAMMED SHAHAN K S","FAHAD B NOOR","MUHAMMED HAMDAN E K","HANI ABDULLA M","MUHAMMED C A","JAZLAN MUHAMMAD M P","MUHAMMED QASIM K M","IMRAN","LAIBA FATHIMA","AYISHA JUMANA","MARIYAMBI","MIHRA MARIYAM M K","KHADEEJATHUL KUBRA M","FATHIMATH ZANHA SHAFEEK","HUSNA ASHRAF O.V","ZAINAB AFSAL"],
- "4":["MUHAMMAD C","MUHAMMED RAZEEN C K","BISHRUL HAFI O","MUHAMMAD HASAN K K","MUHAMMAD ASIF T P","MUHAMMAD SHEZIN K S","FATHIMA SAYEED","FATHIMA HIBA A M","NAJIYA YASMIN","FATHIMA P C","FATHIMA C P","NADIYA O","FATHIMATHU JUMANA KP","FATHIMATH ZAHRA"],
- "6":["MUHAMMED ADIL T P","SHEZIN","SHAHANA FATHIMA P M","FATHIMATH NAFLA P M"],
- "8":["FADIY SAYEED","MUHAMMED NIHAL OK","MUHAMMED NABHAN O","KAMAL SHAHARUZE","MUHAMMED JALAL K K","UMMARUL FAROOQ","MUHAMMED SHAMNAS K.S","AYISHABI C","FATHIMA FIDA A M","FATHIMA AFRA","AYISHA T K","FATHIMA RILA","FAHMI O","ZIYA FATHIMA P P"],
- "9":["MUHAMMED JALAL M","SALMABI C P","ASMABI C P","NAJA FATHIMA O V","AYISHABI T"],
- "+1":["MUHSIN"]
+/* COMPLETE DATA – EDITABLE */
+const data={
+ "1":{
+  totalAttendance:180,
+  students:{
+   "MUHAMMED SHADIL":{present:168,marks:{DUROOS:24,IMLAK:22,FIQH:26,AQLAK:25}},
+   "NASIH SUNEER K P C":{present:170,marks:{DUROOS:23,IMLAK:24,FIQH:22,AQLAK:24}},
+   "AYAN ASIF":{present:165,marks:{DUROOS:21,IMLAK:23,FIQH:24,AQLAK:22}},
+   "INAAYA FATHIMA T K":{present:172,marks:{DUROOS:25,IMLAK:24,FIQH:26,AQLAK:25}},
+   "HIZA FATHIMA":{present:169,marks:{DUROOS:22,IMLAK:23,FIQH:24,AQLAK:23}},
+   "ARWA AFSAL":{present:171,marks:{DUROOS:24,IMLAK:25,FIQH:25,AQLAK:24}}
+  }
+ }
 };
 
-/* FUNCTIONS */
+/* LOAD STUDENTS */
 function loadStudents(){
- studentSelect.innerHTML=`<option value="">-- Select Student --</option>`;
+ studentSelect.innerHTML='<option value="">-- Select Student --</option>';
  resultArea.style.display="none";
- classStudents[classSelect.value]?.forEach(n=>{
+ const cls=classSelect.value;
+ if(!data[cls]) return;
+ Object.keys(data[cls].students).forEach(n=>{
   studentSelect.innerHTML+=`<option value="${n}">${n}</option>`;
  });
 }
-
-function randomMark(){ return Math.floor(Math.random()*13)+18; }
-function randomAttendance(){ return Math.floor(Math.random()*40)+130; }
 
 /* SHOW RESULT */
 function showResult(){
@@ -109,26 +115,27 @@ function showResult(){
  const name=studentSelect.value;
  if(!name) return;
 
+ const student=data[cls].students[name];
  sname.innerText=name;
  sclass.innerText=cls;
- resultArea.style.display="block";
 
- subjectTable.innerHTML=`<tr><td colspan="2" class="subject-title">SUBJECTS</td></tr>`;
+ subjectTable.innerHTML='<tr><td colspan="2" class="subject-title">SUBJECTS</td></tr>';
  let total=0,pass=true;
 
  classSubjects[cls].forEach(sub=>{
-  const mark=randomMark();
-  total+=mark;
-  if(mark<18) pass=false;
-  subjectTable.innerHTML+=`<tr><td>${sub}</td><td>${mark}</td></tr>`;
+  const m=student.marks[sub];
+  total+=m;
+  if(m<18) pass=false;
+  subjectTable.innerHTML+=`<tr><td>${sub}</td><td>${m}</td></tr>`;
  });
 
  subjectTable.innerHTML+=`
  <tr class="total-row"><td>TOTAL</td><td>${total}</td></tr>
- <tr><td colspan="2" class="result ${pass?"pass":"fail"}">${pass?"PASSED":"FAILED"}</td></tr>`;
+ <tr><td colspan="2" class="result ${pass?'pass':'fail'}">${pass?'PASSED':'FAILED'}</td></tr>`;
 
- attendanceTotal.innerText="180";
- attendancePresent.innerText=randomAttendance();
+ attTotal.innerText=data[cls].totalAttendance;
+ attPresent.innerText=student.present;
+ resultArea.style.display="block";
 }
 </script>
 

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Result System</title>
+
+<style>
+body{font-family:Arial,sans-serif;background:#f2f2f2;padding:20px;}
+.container{max-width:760px;margin:auto;background:#fff;padding:20px;border:1px solid #ccc;}
+h1{text-align:center;margin-bottom:5px;}
+h2{text-align:center;font-size:16px;margin-top:0;color:#555;}
+select{padding:8px;width:100%;margin-bottom:15px;}
+table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+td{border:1px solid #000;padding:8px;font-size:14px;}
+.subject-title{text-align:center;font-weight:bold;background:#f0f0f0;}
+.total-row td{font-weight:bold;background:#f5f5f5;}
+.result.pass{text-align:center;font-size:18px;color:#155724;background:#d4edda;}
+.result.fail{text-align:center;font-size:18px;color:#721c24;background:#f8d7da;}
+.download-btn{display:block;text-align:center;margin:15px auto;padding:10px 25px;
+background:#28a745;color:#fff;font-weight:bold;text-decoration:none;border-radius:25px;}
+.footer{margin-top:30px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:#fff;padding:20px;border-radius:12px;text-align:center;}
+.whatsapp-btn{display:inline-block;margin-top:10px;padding:10px 20px;
+background:#25D366;color:#fff;text-decoration:none;font-weight:bold;border-radius:25px;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>MISBAHUL ULOOM MADRASA PERUVANA</h1>
+<h2>ANNUAL EXAM RESULT @2025-2026</h2>
+
+<label><b>Select Class</b></label>
+<select id="classSelect" onchange="loadStudents()">
+<option value="">-- Select Class --</option>
+<option value="1">Class 1</option>
+<option value="2">Class 2</option>
+<option value="3">Class 3</option>
+<option value="4">Class 4</option>
+<option value="6">Class 6</option>
+<option value="8">Class 8</option>
+<option value="9">Class 9</option>
+<option value="+1">Class +1</option>
+</select>
+
+<label><b>Select Student</b></label>
+<select id="studentSelect" onchange="showResult()">
+<option value="">-- Select Student --</option>
+</select>
+
+<div id="resultArea" style="display:none;">
+
+<table>
+<tr><td><b>NAME</b></td><td id="sname"></td></tr>
+<tr><td><b>CLASS</b></td><td id="sclass"></td></tr>
+</table>
+
+<table id="subjectTable"></table>
+
+<table>
+<tr><td><b>TOTAL ATTENDANCE</b></td><td id="attTotal"></td></tr>
+<tr><td><b>PRESENT</b></td><td id="attPresent"></td></tr>
+</table>
+
+<a class="download-btn" onclick="window.print()">DOWNLOAD</a>
+
+</div>
+</div>
+
+<script>
+/* SUBJECTS */
+const classSubjects={
+ "1":["DUROOS","IMLAK","FIQH","AQLAK"],
+ "2":["AQEEDA","DUROOS","QUR'AN","HIFL","LISAN","FIQH"],
+ "3":["DUROOS","FIQH","LISAN","QUR'AN & THADREEB","HIFL","AQEEDA","THAREEKH"],
+ "4":["FIQH","AQEEDA","THAREEKH","QUR'AN & THADREEB","HIFL","DUROOS","LISAN"],
+ "6":["THAREEKH","FIQH","QUR'AN","HIFL","LISAN","DUROOS"],
+ "8":["LISAN","DUROOS","THAREEKH","FIQH"],
+ "9":["DUROOS","THAREEKH","LISAN","FIQH"],
+ "+1":["FIQH","LISAN","THAFSEER","DUROOS"]
+};
+
+/* COMPLETE DATA – EDITABLE */
+const data={
+
+"1":{
+ totalAttendance:180,
+ students:{
+  "MUHAMMED SHADIL":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}},
+  "NASIH SUNEER K P C":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}},
+  "AYAN ASIF":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}},
+  "INAAYA FATHIMA T K":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}},
+  "HIZA FATHIMA":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}},
+  "ARWA AFSAL":{present:0,marks:{DUROOS:20,IMLAK:20,FIQH:20,AQLAK:20}}
+ }
+},
+
+"2":{
+ totalAttendance:180,
+ students:{
+  "DULQUER AZAN":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED HANIH M":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED SWALIH K P":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED HANAN C P":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED HADHI K":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "ZIFRAN P P":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED FAIZAN":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "IMAD T K":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "AJVA FATHIMA V V":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "JUWAIRIYA":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "MUHAMMED RINSHA":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "FATHIMA C P":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "AYISHA M V":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "HANA FATHIMA K":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "RINZA RASHEED":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}},
+  "ZAHRA FATHIMA":{present:0,marks:{AQEEDA:20,DUROOS:20,"QUR'AN":20,HIFL:20,LISAN:20,FIQH:20}}
+ }
+},
+
+"3":{
+ totalAttendance:180,
+ students:{
+  "MUHAMMED SHAHAN K S":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "FAHAD B NOOR":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "NOOR MUHAMMED":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "HAMDAN E K":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "HANI ABDULLA M":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "MUHAMMED C A":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "JAZLAN MUHAMMAD M P":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "MUHAMMED QASIM K M":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "IMRAN":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "LAIBA FATHIMA":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "AYISHA":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "JUMANA":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "MARIYAMBI":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "MIHRA MARIYAM":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "M K KHADEEJATHUL KUBRA":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "FATHIMATH ZANHA SHAFEEK":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "HUSNA ASHRAF O V":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}},
+  "ZAINAB AFSAL":{present:0,marks:{DUROOS:20,FIQH:20,LISAN:20,"QUR'AN & THADREEB":20,HIFL:20,AQEEDA:20,THAREEKH:20}}
+ }
+},
+"4":{
+ totalAttendance:180,
+ students:{
+  "MUHAMMAD C":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "MUHAMMED RAZEEN C K":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "BISHRUL HAFI O":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "MUHAMMAD HASAN K K":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "MUHAMMAD ASIF T P":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "MUHAMMAD SHEZIN K S":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMA SAYEED":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMA HIBA A M":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "NAJIYA YASMIN":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMA P C":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMA C P":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "NADIYA O":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMATHU JUMANA K P":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}},
+  "FATHIMATH ZAHRA":{present:0,marks:{FIQH:20,AQEEDA:20,THAREEKH:20,"QUR'AN & THADREEB":20,HIFL:20,DUROOS:20,LISAN:20}}
+ }
+},
+
+/* ================= CLASS 6 ================= */
+"6":{
+ totalAttendance:180,
+ students:{
+  "MUHAMMED ADIL T P":{present:0,marks:{THAREEKH:20,FIQH:20,"QUR'AN":20,HIFL:20,LISAN:20,DUROOS:20}},
+  "SHEZIN":{present:0,marks:{THAREEKH:20,FIQH:20,"QUR'AN":20,HIFL:20,LISAN:20,DUROOS:20}},
+  "SHAHANA FATHIMA P M":{present:0,marks:{THAREEKH:20,FIQH:20,"QUR'AN":20,HIFL:20,LISAN:20,DUROOS:20}},
+  "FATHIMATH NAFLA P M":{present:0,marks:{THAREEKH:20,FIQH:20,"QUR'AN":20,HIFL:20,LISAN:20,DUROOS:20}}
+ }
+},
+
+/* ================= CLASS 8 ================= */
+"8":{
+ totalAttendance:180,
+ students:{
+  "FADIY SAYEED":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "MUHAMMED NIHAL O K":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "MUHAMMED NABHAN O":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "KAMAL SHAHARUZE":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "MUHAMMED JALAL K K":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "UMMARUL FAROOQ":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "MUHAMMED SHAMNAS K S":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "AYISHABI C":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "FATHIMA FIDA A M":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "FATHIMA AFRA":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "AYISHA T K":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "FATHIMA RILA FAHMI O":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}},
+  "ZIYA FATHIMA P P":{present:0,marks:{LISAN:20,DUROOS:20,THAREEKH:20,FIQH:20}}
+ }
+},
+
+/* ================= CLASS 9 ================= */
+"9":{
+ totalAttendance:180,
+ students:{
+  "MUHAMMED JALAL M":{present:0,marks:{DUROOS:20,THAREEKH:20,LISAN:20,FIQH:20}},
+  "SALMABI C P":{present:0,marks:{DUROOS:20,THAREEKH:20,LISAN:20,FIQH:20}},
+  "ASMABI C P":{present:0,marks:{DUROOS:20,THAREEKH:20,LISAN:20,FIQH:20}},
+  "NAJA FATHIMA O V":{present:0,marks:{DUROOS:20,THAREEKH:20,LISAN:20,FIQH:20}},
+  "AYISHABI T":{present:0,marks:{DUROOS:20,THAREEKH:20,LISAN:20,FIQH:20}}
+ }
+},
+
+"+1":{
+ totalAttendance:180,
+ students:{
+  "MUHSIN":{present:0,marks:{FIQH:20,LISAN:20,THAFSEER:20,DUROOS:20}}
+ }
+}
+
+};
+
+/* LOAD STUDENTS */
+function loadStudents(){
+ studentSelect.innerHTML='<option value="">-- Select Student --</option>';
+ resultArea.style.display="none";
+ const cls=classSelect.value;
+ if(!data[cls]) return;
+ Object.keys(data[cls].students).forEach(n=>{
+  studentSelect.innerHTML+=`<option value="${n}">${n}</option>`;
+ });
+}
+
+/* SHOW RESULT */
+function showResult(){
+ const cls=classSelect.value;
+ const name=studentSelect.value;
+ if(!name) return;
+
+ const student=data[cls].students[name];
+ sname.innerText=name;
+ sclass.innerText=cls;
+
+ subjectTable.innerHTML='<tr><td colspan="2" class="subject-title">SUBJECTS</td></tr>';
+ let total=0,pass=true;
+
+ classSubjects[cls].forEach(sub=>{
+  const m=student.marks[sub];
+  total+=m;
+  if(m<18) pass=false;
+  subjectTable.innerHTML+=`<tr><td>${sub}</td><td>${m}</td></tr>`;
+ });
+
+ subjectTable.innerHTML+=`
+ <tr class="total-row"><td>TOTAL</td><td>${total}</td></tr>
+ <tr><td colspan="2" class="result ${pass?'pass':'fail'}">${pass?'PASSED':'FAILED'}</td></tr>`;
+
+ attTotal.innerText=data[cls].totalAttendance;
+ attPresent.innerText=student.present;
+ resultArea.style.display="block";
+}
+</script>
+
+<div class="footer">
+<h3>MUHSIN MANNANI</h3>
+<p>📞 7559950633</p>
+<a class="whatsapp-btn" href="https://wa.me/917559950633" target="_blank">Chat on WhatsApp</a>
+</div>
+
+</body>
+</html>
