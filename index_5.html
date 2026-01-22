@@ -81,8 +81,6 @@ footer span{
 <div class="box">
 <h3>📘 മദ്റസ വിവരം</h3>
 <p>ഇത് Misbahul Uloom Madrasa Peruvana യുടെ ഔദ്യോഗിക വെബ് പേജാണ്.</p>
-
-<!-- ✅ Dashboard button -->
 <button class="btn btn-primary btn-block" onclick="openDashboard()">Dashboard</button>
 </div>
 </div>
@@ -93,6 +91,15 @@ footer span{
 <h3>📊 പരീക്ഷ ഫലം</h3>
 <p>2026 വാർഷിക പരീക്ഷയുടെ ഫലങ്ങൾ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p>
 <button class="btn btn-primary btn-block" onclick="openResult()">Result View</button>
+</div>
+</div>
+
+<!-- LOCATION VIEW -->
+<div class="col-sm-4">
+<div class="box text-center">
+<h3>📍 Location View</h3>
+<p>Misbahul Uloom Madrasa Peruvana – Map View</p>
+<button class="btn btn-primary btn-block" onclick="openLocation()">Location View</button>
 </div>
 </div>
 
@@ -153,10 +160,16 @@ function openResult(){
     }
 }
 
-/* ✅ DASHBOARD OPEN (NO PASSWORD) */
+/* DASHBOARD */
 function openDashboard(){
     window.location.href =
     "https://mannanimuhsin-sys.github.io/my-website/index_6.html";
+}
+
+/* LOCATION VIEW */
+function openLocation(){
+    window.location.href =
+    "https://maps.app.goo.gl/SZLnKkTARKPHvsVR8?g_st=aw";
 }
 
 /* ADMIN PASSWORD CHANGE */
