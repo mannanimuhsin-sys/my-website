@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beautiful Dashboard</title>
+
+<style>
+body{
+    margin:0;
+    padding:20px;
+    background:linear-gradient(180deg,#f1f4f9,#e9edf5);
+    font-family:"Segoe UI", Tahoma, sans-serif;
+}
+
+/* CARD */
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.08);
+    position:relative;
+    overflow:hidden;
+    transition:0.3s ease;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* COLOR STRIP */
+.card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:7px;
+    height:100%;
+    border-radius:18px 0 0 18px;
+}
+
+/* TEXT */
+.card h4{
+    margin:0;
+    font-size:14px;
+    letter-spacing:1px;
+    font-weight:700;
+}
+
+.card h2{
+    margin:10px 0 0 0;
+    font-size:36px;
+    font-weight:800;
+    color:#2d2d2d;
+}
+
+/* ICON */
+.icon{
+    font-size:50px;
+    opacity:0.25;
+}
+
+/* INDIVIDUAL COLORS */
+.total::before{background:linear-gradient(#5c7cfa,#4c6ef5);}
+.total h4{color:#4c6ef5;}
+
+.male::before{background:linear-gradient(#2f9e44,#20c997);}
+.male h4{color:#20c997;}
+
+.female::before{background:linear-gradient(#15aabf,#3bc9db);}
+.female h4{color:#3bc9db;}
+
+.staff::before{background:linear-gradient(#f08c00,#f59f00);}
+.staff h4{color:#f59f00;}
+</style>
+</head>
+
+<body>
+
+<div class="card total">
+    <div>
+        <h4>TOTAL STUDENTS</h4>
+        <h2>107</h2>
+    </div>
+    <div class="icon">👥</div>
+</div>
+
+<div class="card male">
+    <div>
+        <h4>MALE</h4>
+        <h2>54</h2>
+    </div>
+    <div class="icon">👤</div>
+</div>
+
+<div class="card female">
+    <div>
+        <h4>FEMALE</h4>
+        <h2>53</h2>
+    </div>
+    <div class="icon">👩</div>
+</div>
+
+<div class="card staff">
+    <div>
+        <h4>STAFFS</h4>
+        <h2>3</h2>
+    </div>
+    <div class="icon">🎓</div>
+</div>
+
+</body>
+</html>
