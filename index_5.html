@@ -16,18 +16,25 @@ body{ background:#f4f6f8; font-family:Arial,sans-serif; }
 .box{ background:white; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-bottom:20px; }
 .exec-link{ display:block; margin-top:12px; padding:15px; border-radius:10px; background:linear-gradient(135deg,#198754,#20c997); color:#fff; text-decoration:none; }
 .exec-link:hover{ text-decoration:none; color:#fff; opacity:0.95; }
-.exec-link h4{ margin:0; font-size:16px; font-weight:600; }
-.exec-link p{ margin:3px 0 0; font-size:13px; opacity:0.9; }
 footer{ background:#2c3e50; color:#fff; margin-top:40px; padding:15px 0; text-align:center; font-size:14px; }
 footer span{ color:#f1c40f; font-weight:600; }
-@media(max-width:768px){ .jumbotron{ padding:45px 15px; } .jumbotron h1{ font-size:24px; } .jumbotron h2{ font-size:16px; } }
 
-/* Blood Bank Styles */
-.blood-card{ border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:10px; background:#f8f9fa; display:flex; justify-content:space-between; align-items:center; }
-.blood-card h5{ margin:0; font-weight:600; color: #d9534f; }
-.contact-icons{ display:flex; flex-direction:column; gap:5px; }
-.contact-icons a{ font-size:20px; color:#198754; padding:5px 8px; border:1px solid #198754; border-radius:6px; text-align:center; }
-.highlight{ background:#f8d7da !important; border-color:#dc3545 !important; }
+/* Contact Section Styles */
+.contact-header { margin: 30px 0 20px; text-align: center; color: #2c3e50; font-weight: bold; }
+.contact-card { background: white; padding: 15px; border-radius: 12px; border-left: 5px solid #198754; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 15px; transition: 0.3s; }
+.contact-card h4 { margin: 0; font-size: 14px; color: #666; font-weight: bold; text-transform: uppercase; }
+.contact-card h3 { margin: 5px 0; font-size: 18px; color: #2c3e50; }
+.contact-btn-group { display: flex; gap: 10px; margin-top: 10px; }
+.contact-btn { flex: 1; padding: 8px; text-align: center; border-radius: 6px; color: white; text-decoration: none; font-size: 18px; transition: 0.3s; }
+.btn-call { background: #007bff; }
+.btn-wa { background: #25d366; }
+.contact-btn:hover { color: white; opacity: 0.8; transform: translateY(-2px); }
+
+/* Blood Bank Filter Styles */
+.filter-group { background: #eef2f3; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+.blood-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 10px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+.blood-card h5 { margin: 0; color: #d9534f; font-weight: bold; font-size: 18px; }
+.blood-card p { margin: 2px 0 0; color: #777; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -56,7 +63,7 @@ footer span{ color:#f1c40f; font-weight:600; }
       <div class="box text-center">
         <h3>📊 പരീക്ഷ ഫലം</h3>
         <p>2026 വാർഷിക പരീക്ഷയുടെ ഫലങ്ങൾ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p>
-        <button class="btn btn-primary btn-block" onclick="openResult()">Result View</button>
+        <button class="btn btn-primary btn-block" onclick="showResultAlert()">Result View</button>
       </div>
     </div>
 
@@ -83,8 +90,52 @@ footer span{ color:#f1c40f; font-weight:600; }
           <button type="submit" class="btn btn-success btn-block">Add Donor</button>
         </form>
         <hr>
-        <h4>സന്നദ്ധരായവർ:</h4>
+        
+        <div class="filter-group">
+          <h4>🩸 സന്നദ്ധരായവരെ കണ്ടെത്തുക</h4>
+          <p>ബ്ലഡ് ഗ്രൂപ്പ് തിരഞ്ഞെടുക്കുക:</p>
+          <select class="form-control" id="bloodFilter">
+            <option value="ALL">എല്ലാവരെയും കാണിക്കുക</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </div>
+        
         <div id="bloodBankList"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="contact-header">📞 ബന്ധപ്പെടുക</h2>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="contact-card">
+        <h4>സദർ മുഅല്ലിം</h4>
+        <h3>മുഹ്സിൻ മന്നാനി</h3>
+        <div class="contact-btn-group">
+          <a href="tel:7559950633" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/917559950633" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="contact-card" style="border-left-color: #007bff;">
+        <h4>സെക്രട്ടറി</h4>
+        <h3>മൊയ്‌ദു പി.കെ</h3>
+        <div class="contact-btn-group">
+          <a href="tel:8304016701" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/918304016701" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="contact-card" style="border-left-color: #f1c40f;">
+        <h4>മദ്രസ ഇൻ ചാർജ്</h4>
+        <h3>ജംഷീർ ദാരിമി</h3>
+        <div class="contact-btn-group">
+          <a href="tel:9746969716" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+          <a href="https://wa.me/919746969716" target="_blank" class="contact-btn btn-wa"><i class="fab fa-whatsapp"></i></a>
+        </div>
       </div>
     </div>
   </div>
@@ -96,12 +147,12 @@ footer span{ color:#f1c40f; font-weight:600; }
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-/* പഴയ ഫംഗ്ഷനുകൾ */
-function openResult(){ alert("Result not yet published"); }
+function showResultAlert() {
+  alert("ക്ഷമിക്കണം,\nനിലവിൽ റിസൽട്ട് പ്രസിദ്ധീകരിച്ചിട്ടില്ല. പ്രസിദ്ധീകരണ തീയതി പിന്നീട് അറിയിക്കും.");
+}
 function openDashboard(){ window.location.href="https://mannanimuhsin-sys.github.io/my-website/index_6.html"; }
 function openLocation(){ window.location.href="https://maps.google.com/?q=Peruvana"; }
 
-/* നിങ്ങൾ പുതുതായി ഉണ്ടാക്കിയ ഫയർബേസ് കോൺഫിഗറേഷൻ */
 const firebaseConfig = {
   apiKey: "AIzaSyBriz_0zYwQOcwVgd3XTQ0l-0NKBNYaZXQ",
   authDomain: "misbahul-uloom-madrasa-4830c.firebaseapp.com",
@@ -115,7 +166,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ഡാറ്റ സേവ് ചെയ്യാൻ */
 document.getElementById("bloodBankForm").addEventListener("submit", e => {
   e.preventDefault();
   db.collection("donors").add({
@@ -126,31 +176,54 @@ document.getElementById("bloodBankForm").addEventListener("submit", e => {
     time: Date.now()
   }).then(() => {
     document.getElementById("bloodBankForm").reset();
-    alert("വിവരങ്ങൾ ചേർത്തു!");
+    alert("വിവരങ്ങൾ വിജയകരമായി ചേർത്തു!");
   });
 });
 
-/* ഡാറ്റ ലിസ്റ്റ് ചെയ്യാൻ */
-db.collection("donors").orderBy("time", "desc").onSnapshot(snapshot => {
-  const list = document.getElementById("bloodBankList");
-  list.innerHTML = "";
-  snapshot.forEach(doc => {
-    const d = doc.data();
-    const card = document.createElement("div");
-    card.className = "blood-card";
-    card.innerHTML = `
-      <div>
-        <h5>${d.name} (${d.group})</h5>
-        <p>${d.address}</p>
-      </div>
-      <div class="contact-icons">
-        <a href="tel:${d.phone}"><i class="fas fa-phone"></i></a>
-        <a href="https://wa.me/91${d.phone.replace(/\s/g, '')}" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      </div>
-    `;
-    list.appendChild(card);
+const filterSelect = document.getElementById("bloodFilter");
+const listContainer = document.getElementById("bloodBankList");
+
+function loadDonors(filterValue = "ALL") {
+  let query = db.collection("donors").orderBy("time", "desc");
+  
+  listContainer.innerHTML = "<p class='text-center'>തിരയുന്നു...</p>";
+  
+  query.onSnapshot(snapshot => {
+    listContainer.innerHTML = "";
+    let count = 0;
+    
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      if (filterValue === "ALL" || d.group === filterValue) {
+        count++;
+        const card = document.createElement("div");
+        card.className = "blood-card";
+        card.innerHTML = `
+          <div>
+            <h5>${d.name} (${d.group})</h5>
+            <p><i class="fas fa-map-marker-alt"></i> ${d.address}</p>
+          </div>
+          <div class="contact-icons">
+            <a href="tel:${d.phone}" style="color:#007bff; border-color:#007bff;"><i class="fas fa-phone"></i></a>
+            <a href="https://wa.me/91${d.phone.replace(/\s/g, '')}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        `;
+        listContainer.appendChild(card);
+      }
+    });
+    
+    if (count === 0) {
+      listContainer.innerHTML = "<p class='text-center text-danger'>ഈ ഗ്രൂപ്പിൽ ആരെയും കണ്ടെത്തിയില്ല.</p>";
+    }
   });
+}
+
+filterSelect.addEventListener("change", (e) => {
+  loadDonors(e.target.value);
 });
+
+// Initial load
+loadDonors();
 </script>
 </body>
 </html>
