@@ -1,156 +1,138 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-<title>Misbahul Uloom Madrasa</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title>Misbahul Uloom Madrasa</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body{
-    background:#f4f6f8;
-}
-
+body{ background:#f4f6f8; font-family:Arial,sans-serif; }
 .jumbotron{
-    background-image:
-      linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-      url("madrasa.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color:white;
-    margin-bottom:25px;
-    padding:80px 10px;
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url("madrasa.jpg");
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  color:white; margin-bottom:25px; padding:80px 10px;
 }
+.box{ background:white; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin-bottom:20px; }
+.exec-link{ display:block; margin-top:12px; padding:15px; border-radius:10px; background:linear-gradient(135deg,#198754,#20c997); color:#fff; text-decoration:none; }
+.exec-link:hover{ text-decoration:none; color:#fff; opacity:0.95; }
+.exec-link h4{ margin:0; font-size:16px; font-weight:600; }
+.exec-link p{ margin:3px 0 0; font-size:13px; opacity:0.9; }
+footer{ background:#2c3e50; color:#fff; margin-top:40px; padding:15px 0; text-align:center; font-size:14px; }
+footer span{ color:#f1c40f; font-weight:600; }
+@media(max-width:768px){ .jumbotron{ padding:45px 15px; } .jumbotron h1{ font-size:24px; } .jumbotron h2{ font-size:16px; } }
 
-.box{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    margin-bottom:20px;
-}
-
-.exec-link{
-    display:block;
-    margin-top:12px;
-    padding:15px;
-    border-radius:10px;
-    background:linear-gradient(135deg,#198754,#20c997);
-    color:#fff;
-    text-decoration:none;
-}
-.exec-link:hover{
-    text-decoration:none;
-    color:#fff;
-    opacity:0.95;
-}
-.exec-link h4{
-    margin:0;
-    font-size:16px;
-    font-weight:600;
-}
-.exec-link p{
-    margin:3px 0 0;
-    font-size:13px;
-    opacity:0.9;
-}
-
-footer{
-    background:#2c3e50;
-    color:#fff;
-    margin-top:40px;
-    padding:15px 0;
-    text-align:center;
-    font-size:14px;
-}
-footer span{
-    color:#f1c40f;
-    font-weight:600;
-}
-
-@media (max-width: 768px){
-    .jumbotron{
-        padding:45px 15px;
-    }
-    .jumbotron h1{
-        font-size:24px;
-    }
-    .jumbotron h2{
-        font-size:16px;
-    }
-}
+/* Blood Bank Styles */
+#bloodBankForm{ margin-top:20px; }
+#bloodBankList{ margin-top:20px; }
+.blood-card{ border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:10px; background:#f8f9fa; position:relative; transition:0.3s; }
+.blood-card h5{ margin:0; font-weight:600; }
+.blood-card p{ margin:2px 0; font-size:14px; }
+#downloadCSV{ margin-top:10px; }
+.consent-box{ border:1px solid #ddd; padding:12px; border-radius:8px; background:#fff3cd; color:#856404; margin-bottom:15px; }
+.contact-icons{ position:absolute; top:12px; right:12px; }
+.contact-icons a{ margin-left:8px; font-size:28px; color:#198754; text-decoration:none; transition:0.3s; }
+.contact-icons a:hover{ color:#14532d; transform:scale(1.2); }
+.filter-box{ margin-bottom:15px; }
+.highlight{ background:#f8d7da !important; border-color:#dc3545 !important; }
 </style>
 </head>
-
 <body>
 
-<div style="background-color: rgb(38, 9, 227);" class="jumbotron text-center">
+<div class="jumbotron text-center">
 <h1>MISBAHUL ULOOM MADRASA</h1>
 <h2>PERUVANA</h2>
 <p>Under, Samastha Kerala Islam Matha Vidyabhyasa Board (SKIMVB) Reg.No:4224</p>
 </div>
 
 <div class="container">
-<div class="row">
+  <div class="row">
+    <!-- Existing Sections -->
+    <div class="col-sm-4">
+      <div class="box">
+        <h3>📘 മദ്റസ വിവരം</h3>
+        <p>ഇത് Misbahul Uloom Madrasa Peruvana യുടെ ഔദ്യോഗിക വെബ് പേജാണ്.</p>
+        <button class="btn btn-primary btn-block" onclick="openDashboard()">📊 Dashboard</button>
+        <a href="https://mannanimuhsin-sys.github.io/my-website/index_7.html" target="_blank" class="exec-link">
+          <h4>📋 ക്ലാസ് വിദ്യാർത്ഥി വിവരങ്ങൾ</h4>
+          <p>Class-wise student strength & details</p>
+        </a>
+      </div>
+    </div>
 
-<div class="col-sm-4">
-<div class="box">
-<h3>📘 മദ്റസ വിവരം</h3>
-<p>ഇത് Misbahul Uloom Madrasa Peruvana യുടെ ഔദ്യോഗിക വെബ് പേജാണ്.</p>
+    <div class="col-sm-4">
+      <div class="box text-center">
+        <h3>📊 പരീക്ഷ ഫലം</h3>
+        <p>2026 വാർഷിക പരീക്ഷയുടെ ഫലങ്ങൾ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p>
+        <p>🔔 Result will be announced soon</p>
+        <button class="btn btn-primary btn-block" onclick="openResult()">Result View</button>
+      </div>
+    </div>
 
-<button class="btn btn-primary btn-block" onclick="openDashboard()">📊 Dashboard</button>
+    <div class="col-sm-4">
+      <div class="box text-center">
+        <h3>📍 Location View</h3>
+        <p>Misbahul Uloom Madrasa Peruvana – Map View</p>
+        <button class="btn btn-primary btn-block" onclick="openLocation()">Location View</button>
+      </div>
+    </div>
 
-<a href="https://mannanimuhsin-sys.github.io/my-website/index_7.html" target="_blank" class="exec-link">
-<h4>📋 ക്ലാസ് വിദ്യാർത്ഥി വിവരങ്ങൾ</h4>
-<p>Class-wise student strength & details</p>
-</a>
-</div>
-</div>
+    <!-- Blood Bank Section BELOW Location -->
+    <div class="col-sm-12">
+      <div class="box">
+        <h3>🩸 Blood Bank Registration & Notification</h3>
+        <div class="consent-box">
+          <strong>Notification Consent:</strong>  
+          Blood donors will be notified when their blood type is required.  
+          By submitting this form, you agree to be contacted via call or WhatsApp regarding blood donation requests.
+        </div>
 
-<div class="col-sm-4">
-<div class="box text-center">
-<h3>📊 പരീക്ഷ ഫലം</h3>
-<p>2026 വാർഷിക പരീക്ഷയുടെ ഫലങ്ങൾ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p>
-<p>🔔 Result will be announced soon</p>
-<button class="btn btn-primary btn-block" onclick="openResult()">Result View</button>
-</div>
-</div>
+        <form id="bloodBankForm">
+          <div class="form-group">
+            <label>പേര്</label>
+            <input type="text" class="form-control" id="bbName" required>
+          </div>
+          <div class="form-group">
+            <label>മൊബൈൽ നമ്പർ</label>
+            <input type="text" class="form-control" id="bbPhone" required>
+          </div>
+          <div class="form-group">
+            <label>പൂർണ്ണ വിലാസം</label>
+            <input type="text" class="form-control" id="bbAddress" required>
+          </div>
+          <div class="form-group">
+            <label>Blood Group</label>
+            <select class="form-control" id="bbGroup" required>
+              <option value="">Select</option>
+              <option>A+</option><option>A-</option>
+              <option>B+</option><option>B-</option>
+              <option>AB+</option><option>AB-</option>
+              <option>O+</option><option>O-</option>
+            </select>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" id="bbConsent" required> I agree to be notified when my blood type is needed.</label>
+          </div>
+          <button type="submit" class="btn btn-success btn-block">Add Donor</button>
+        </form>
 
-<div class="col-sm-4">
-<div class="box text-center">
-<h3>📍 Location View</h3>
-<p>Misbahul Uloom Madrasa Peruvana – Map View</p>
-<button class="btn btn-primary btn-block" onclick="openLocation()">Location View</button>
-</div>
-</div>
+        <div class="filter-box">
+          <label>Highlight Blood Type Needed:</label>
+          <select class="form-control" id="highlightGroup">
+            <option value="">Select Blood Type</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+          </select>
+        </div>
 
-<div class="col-sm-4">
-<div class="box">
+        <div id="bloodBankList"></div>
+        <button class="btn btn-info" id="downloadCSV">Download CSV</button>
+      </div>
+    </div>
 
-<h3>📞 ബന്ധപ്പെടുക</h3>
-
-<h4>സദർ മുഅല്ലിം</h4>
-<p><b>മുഹ്സിൻ മന്നാനി</b></p>
-<p>7559950633</p>
-
-<hr>
-
-<h4>സെക്രട്ടറി</h4>
-<p><b>മൊയിദു പി. കെ</b></p>
-<p>8304016701</p>
-
-<hr>
-
-<h4>മദ്റസ ഇൻചാർജ്</h4>
-<p><b>ജംഷീർ ദാരിമി</b></p>
-<p>9746969716</p>
-
-</div>
-</div>
-
-</div>
+  </div>
 </div>
 
 <footer>
@@ -158,22 +140,13 @@ footer span{
 </footer>
 
 <script>
-
 /* ===== RESULT SWITCH ===== */
-/* false = show notification */
-/* true  = open result page */
-
 let resultPublished = false;
-
 function openResult(){
-
 if(resultPublished){
-window.location.href =
-"https://mannanimuhsin-sys.github.io/my-website/index_3.html";
-return;
+  window.location.href="https://mannanimuhsin-sys.github.io/my-website/index_3.html"; return;
 }
-
-let overlay = document.createElement("div");
+let overlay=document.createElement("div");
 overlay.style.position="fixed";
 overlay.style.top=0;
 overlay.style.left=0;
@@ -184,49 +157,91 @@ overlay.style.display="flex";
 overlay.style.alignItems="center";
 overlay.style.justifyContent="center";
 overlay.style.zIndex="9999";
-
-overlay.innerHTML = `
-<div style="
-background:#fff;
-padding:30px;
-border-radius:16px;
-max-width:360px;
-width:90%;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-">
+overlay.innerHTML=`
+<div style="background:#fff; padding:30px; border-radius:16px; max-width:360px; width:90%; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,.3);">
 <h3 style="color:#dc3545;">ക്ഷമിക്കണം</h3>
 <p style="line-height:1.7;">
 ദയവായി കാത്തിരിക്കു...<br>
 നിലവിൽ റിസൽട്ട് പ്രസിദ്ധീകരിച്ചിട്ടില്ല<br>
 <b>പ്രസിദ്ധീകരണ തീയതിയും സമയവും പിന്നീട് അറിയിക്കും</b>
 </p>
-<button onclick="this.parentElement.parentElement.remove()" style="
-background:#198754;
-border:none;
-color:white;
-padding:10px 25px;
-border-radius:25px;
-">
-OK
-</button>
-</div>
-`;
-
+<button onclick="this.parentElement.parentElement.remove()" style="background:#198754; border:none; color:white; padding:10px 25px; border-radius:25px;">OK</button>
+</div>`;
 document.body.appendChild(overlay);
 }
+function openDashboard(){ window.location.href="https://mannanimuhsin-sys.github.io/my-website/index_6.html"; }
+function openLocation(){ window.location.href="https://maps.app.goo.gl/SZLnKkTARKPHvsVR8?g_st=aw"; }
 
-function openDashboard(){
-window.location.href =
-"https://mannanimuhsin-sys.github.io/my-website/index_6.html";
+/* ===== Blood Bank Logic ===== */
+let donors=[];
+const form=document.getElementById("bloodBankForm");
+const listDiv=document.getElementById("bloodBankList");
+const highlightSelect=document.getElementById("highlightGroup");
+
+form.addEventListener("submit", e=>{
+  e.preventDefault();
+  const name=document.getElementById("bbName").value;
+  const phone=document.getElementById("bbPhone").value;
+  const address=document.getElementById("bbAddress").value;
+  const group=document.getElementById("bbGroup").value;
+  const consent=document.getElementById("bbConsent").checked;
+  donors.push({name, phone, address, group, consent});
+  form.reset();
+  alert("Blood donor added! You will be notified when your blood type is required.");
+  renderDonors();
+});
+
+highlightSelect.addEventListener("change", ()=>{
+  const type=highlightSelect.value;
+  if(type){
+    alert(`Blood type ${type} is now marked as needed. Contact these donors urgently!`);
+  }
+  renderDonors();
+});
+
+function renderDonors(){
+  const typeNeeded=highlightSelect.value;
+  listDiv.innerHTML="";
+  let groups=[...new Set(donors.map(d=>d.group))];
+  groups.forEach(g=>{
+    let filtered=donors.filter(d=>d.group===g);
+    if(filtered.length===0) return;
+    let groupDiv=document.createElement("div");
+    groupDiv.className="box";
+    groupDiv.innerHTML=`<h4>Blood Group: ${g}</h4>`;
+    filtered.forEach(d=>{
+      let card=document.createElement("div");
+      card.className="blood-card";
+      if(typeNeeded && d.group===typeNeeded) card.classList.add("highlight");
+      card.innerHTML=`<h5>${d.name}</h5>
+        <p>Address: ${d.address}</p>
+        <p>Consent Given: ${d.consent?"Yes":"No"}</p>`;
+      let icons=document.createElement("div");
+      icons.className="contact-icons";
+      let callLink=document.createElement("a");
+      callLink.href=`tel:${d.phone}`;
+      callLink.title="Call"; callLink.innerHTML='<i class="fas fa-phone"></i>';
+      let waLink=document.createElement("a");
+      waLink.href=`https://wa.me/${d.phone}`;
+      waLink.target="_blank"; waLink.title="WhatsApp";
+      waLink.innerHTML='<i class="fab fa-whatsapp"></i>';
+      icons.appendChild(callLink); icons.appendChild(waLink);
+      card.appendChild(icons);
+      groupDiv.appendChild(card);
+    });
+    listDiv.appendChild(groupDiv);
+  });
 }
 
-function openLocation(){
-window.location.href =
-"https://maps.app.goo.gl/SZLnKkTARKPHvsVR8?g_st=aw";
-}
-
+document.getElementById("downloadCSV").addEventListener("click", ()=>{
+  if(donors.length===0){ alert("No donors to download!"); return; }
+  let csv="Name,Phone,Address,Blood Group,Consent\n";
+  donors.forEach(d=>{ csv+=`${d.name},${d.phone},${d.address},${d.group},${d.consent?"Yes":"No"}\n`; });
+  let blob=new Blob([csv],{type:"text/csv"});
+  let url=URL.createObjectURL(blob);
+  let a=document.createElement("a");
+  a.href=url; a.download="blood_donors.csv"; a.click(); URL.revokeObjectURL(url);
+});
 </script>
-
 </body>
 </html>
