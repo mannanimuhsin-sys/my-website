@@ -3,102 +3,42 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel | Misbahul Uloom</title>
+    <title>Advanced Admin Panel | Misbahul Uloom</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        body { background: #f4f7f6; font-family: 'Poppins', sans-serif; padding: 20px; }
-        .admin-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .header { background: #198754; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
-        .student-card { border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: #fff; transition: 0.3s; display: flex; align-items: center; }
-        .student-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .student-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid #198754; }
-        .student-info { flex-grow: 1; }
-        .student-info h4 { margin: 0; color: #198754; font-weight: 600; }
-        .student-info p { margin: 2px 0; font-size: 13px; color: #666; }
-        .badge-gender { background: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 5px; font-size: 11px; }
-        .search-box { margin-bottom: 20px; border-radius: 10px; height: 45px; }
+        body { background: #f0f2f5; font-family: 'Poppins', sans-serif; padding: 10px; }
+        .admin-header { background: #198754; color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        /* ക്ലാസ് സെക്ഷൻ ഡിസൈൻ */
+        .class-group { margin-bottom: 15px; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .class-header { background: #fff; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f2f5; transition: 0.3s; }
+        .class-header:hover { background: #f9f9f9; }
+        .class-header h3 { margin: 0; font-size: 18px; color: #198754; font-weight: 600; }
+        .student-list { display: none; padding: 10px; background: #fafafa; }
+
+        /* സ്റ്റുഡന്റ് കാർഡ് */
+        .student-card { background: white; border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; position: relative; }
+        .std-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid #198754; }
+        .std-info { flex-grow: 1; }
+        .std-info h4 { margin: 0; font-size: 15px; font-weight: 600; }
+        .std-info p { margin: 2px 0; font-size: 12px; color: #666; }
+
+        .btn-edit { background: #ffc107; color: #000; border: none; padding: 5px 12px; border-radius: 5px; font-size: 12px; margin-left: 5px; }
+        .btn-download { background: #0d6efd; color: white; border: none; padding: 10px 20px; border-radius: 10px; margin-bottom: 20px; width: 100%; font-weight: 600; }
+        
+        /* എഡിറ്റ് മോഡൽ സ്റ്റൈൽ */
+        .edit-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center; }
+        .edit-box { background:white; padding:20px; border-radius:15px; width:90%; max-width:400px; }
     </style>
 </head>
 <body>
 
-<div class="container admin-container">
-    <div class="header">
-        <h3>മിസ്ബാഹുൽ ഉലൂം - അഡ്മിൻ പാനൽ</h3>
-        <p>ആകെ കുട്ടികൾ: <span id="studentCount">0</span></p>
+<div class="container">
+    <div class="admin-header">
+        <h2>മിസ്ബാഹുൽ ഉലൂം അഡ്മിൻ പാനൽ</h2>
+        <p>ക്ലാസ് അടിസ്ഥാനത്തിലുള്ള വിവരങ്ങൾ</p>
     </div>
 
-    <input type="text" id="searchInput" class="form-control search-box" placeholder="പേര് അല്ലെങ്കിൽ ക്ലാസ് തിരയുക...">
-
-    <div id="studentList">
-        <p class="text-center">വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>
-    </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBriz_0zYwQOcwVgd3XTQ0l-0NKBNYaZXQ",
-  authDomain: "misbahul-uloom-madrasa-4830c.firebaseapp.com",
-  projectId: "misbahul-uloom-madrasa-4830c",
-  storageBucket: "misbahul-uloom-madrasa-4830c.firebasestorage.app",
-  messagingSenderId: "370558703441",
-  appId: "1:370558703441:web:dc68dbdbd685c9d07ea570"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// ഡാറ്റാബേസിൽ നിന്ന് വിവരങ്ങൾ എടുക്കുന്നു
-async function fetchStudents() {
-    const listDiv = document.getElementById("studentList");
-    try {
-        const snapshot = await db.collection("students").orderBy("time", "desc").get();
-        listDiv.innerHTML = "";
-        document.getElementById("studentCount").innerText = snapshot.size;
-
-        if (snapshot.empty) {
-            listDiv.innerHTML = "<p class='text-center'>കുട്ടികളുടെ വിവരങ്ങൾ ലഭ്യമല്ല.</p>";
-            return;
-        }
-
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const card = `
-                <div class="student-card">
-                    <img src="${data.photo}" class="student-img" alt="Photo">
-                    <div class="student-info">
-                        <h4>${data.name} <span class="badge-gender">${data.gender || 'N/A'}</span></h4>
-                        <p><b>പിതാവ്:</b> ${data.father || 'N/A'}</p>
-                        <p><b>ക്ലാസ്:</b> ${data.class} | <b>ബ്ലഡ്:</b> ${data.blood || 'N/A'}</p>
-                        <p><b>മൊബൈൽ:</b> ${data.phone}</p>
-                    </div>
-                </div>
-            `;
-            listDiv.innerHTML += card;
-        });
-    } catch (err) {
-        listDiv.innerHTML = "<p class='text-center text-danger'>വിവരങ്ങൾ ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
-    }
-}
-
-// സെർച്ച് ഫങ്ക്ഷൻ
-document.getElementById("searchInput").addEventListener("keyup", function() {
-    let filter = this.value.toLowerCase();
-    let cards = document.querySelectorAll(".student-card");
-    cards.forEach(card => {
-        let name = card.querySelector("h4").innerText.toLowerCase();
-        let info = card.querySelector(".student-info").innerText.toLowerCase();
-        if (name.includes(filter) || info.includes(filter)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
-        }
-    });
-});
-
-fetchStudents();
-</script>
-</body>
-</html>
+    <button class="btn-download" onclick="downloadCSV()"><i class="glyphicon glyphicon-download-alt"></i> മുഴുവൻ വിവരങ്ങളും Excel/CSV ആക്കാം</button>
