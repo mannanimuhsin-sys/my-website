@@ -1,118 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ml">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beautiful Dashboard</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Misbahul Uloom Madrasa | Peruvana</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body{
-    margin:0;
-    padding:20px;
-    background:linear-gradient(180deg,#f1f4f9,#e9edf5);
-    font-family:"Segoe UI", Tahoma, sans-serif;
-}
+    body{ background:#f4f7f6; font-family: 'Poppins', sans-serif; }
+    .jumbotron{
+      background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("madrasa.jpg");
+      background-size:cover; background-position:center; color:white; padding:70px 10px; border-radius: 0 0 30px 30px;
+    }
+    .box{ background:white; padding:20px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.05); margin-bottom:20px; border-top: 4px solid #198754; }
+    
+    .portal-card { background: linear-gradient(135deg, #198754, #20c997); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(25,135,84,0.3); }
+    .portal-card:hover { transform: translateY(-3px); }
 
-/* CARD */
-.card{
-    background:#fff;
-    border-radius:18px;
-    padding:22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    box-shadow:0 15px 30px rgba(0,0,0,0.08);
-    position:relative;
-    overflow:hidden;
-    transition:0.3s ease;
-}
+    .blood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+    .blood-btn { background: #fff; border: 2px solid #d9534f; color: #d9534f; padding: 15px 5px; border-radius: 10px; text-align: center; font-weight: bold; cursor: pointer; }
+    .blood-btn:hover { background: #d9534f; color: white; }
 
-.card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 20px 40px rgba(0,0,0,0.12);
-}
+    .contact-card { background: white; padding: 15px; border-radius: 12px; border-left: 5px solid #198754; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 15px; }
+    .contact-btn-group { display: flex; gap: 10px; margin-top: 10px; }
+    .contact-btn { flex: 1; padding: 8px; text-align: center; border-radius: 6px; color: white; font-size: 18px; }
+    .btn-call { background: #007bff; } .btn-wa { background: #25d366; }
 
-/* COLOR STRIP */
-.card::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    width:7px;
-    height:100%;
-    border-radius:18px 0 0 18px;
-}
+    .dash-sub-text { font-size: 13px; color: #666; margin-bottom: 8px; font-weight: bold; display: block; }
 
-/* TEXT */
-.card h4{
-    margin:0;
-    font-size:14px;
-    letter-spacing:1px;
-    font-weight:700;
-}
-
-.card h2{
-    margin:10px 0 0 0;
-    font-size:36px;
-    font-weight:800;
-    color:#2d2d2d;
-}
-
-/* ICON */
-.icon{
-    font-size:50px;
-    opacity:0.25;
-}
-
-/* INDIVIDUAL COLORS */
-.total::before{background:linear-gradient(#5c7cfa,#4c6ef5);}
-.total h4{color:#4c6ef5;}
-
-.male::before{background:linear-gradient(#2f9e44,#20c997);}
-.male h4{color:#20c997;}
-
-.female::before{background:linear-gradient(#15aabf,#3bc9db);}
-.female h4{color:#3bc9db;}
-
-.staff::before{background:linear-gradient(#f08c00,#f59f00);}
-.staff h4{color:#f59f00;}
+    footer{ background:#2c3e50; color:#fff; padding:20px; text-align:center; margin-top:40px; }
 </style>
 </head>
-
 <body>
 
-<div class="card total">
-    <div>
-        <h4>TOTAL STUDENTS</h4>
-        <h2>107</h2>
-    </div>
-    <div class="icon">👥</div>
+<div class="jumbotron text-center">
+    <h1>MISBAHUL ULOOM MADRASA</h1>
+    <p>Peruvana | Under SKIMVB Reg.No: 4224</p>
 </div>
 
-<div class="card male">
-    <div>
-        <h4>MALE</h4>
-        <h2>54</h2>
+<div class="container">
+    <div class="portal-card" onclick="window.location.href='https://mannanimuhsin-sys.github.io/my-website/student.html'">
+        <i class="fas fa-id-card-alt fa-3x"></i>
+        <h2>Student Information Portal</h2>
+        <p>വിദ്യാർത്ഥികളുടെ രജിസ്‌ട്രേഷൻ, പ്രൊഫൈൽ എന്നിവയ്ക്കായി ഇവിടെ ക്ലിക്ക് ചെയ്യുക</p>
     </div>
-    <div class="icon">👤</div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="box text-center">
+                <i class="fas fa-chart-pie fa-2x text-success" style="margin-bottom:10px;"></i>
+                <h4>Dashboard</h4>
+                <span class="dash-sub-text">Student & Teacher Details</span>
+                <button class="btn btn-success btn-block" onclick="openDashboard()">Open Dashboard</button>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box text-center">
+                <i class="fas fa-map-marked-alt fa-2x text-primary" style="margin-bottom:10px;"></i>
+                <h4>Location</h4>
+                <span class="dash-sub-text">View on Google Maps</span>
+                <button class="btn btn-primary btn-block" onclick="openLocation()">Map View</button>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box text-center">
+                <i class="fas fa-file-alt fa-2x text-info" style="margin-bottom:10px;"></i>
+                <h4>Exam Result</h4>
+                <span class="dash-sub-text">Check Annual Results</span>
+                <button class="btn btn-info btn-block" onclick="showResultAlert()">View Results</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <h3 class="text-center">🩸 Blood Bank</h3>
+        <p class="text-center text-muted">ഗ്രൂപ്പ് തിരഞ്ഞെടുത്ത് സന്നദ്ധരായവരെ കണ്ടെത്തുക</p>
+        <div class="blood-grid">
+            <div class="blood-btn" onclick="openDonorList('A+')">A+</div>
+            <div class="blood-btn" onclick="openDonorList('A-')">A-</div>
+            <div class="blood-btn" onclick="openDonorList('B+')">B+</div>
+            <div class="blood-btn" onclick="openDonorList('B-')">B-</div>
+            <div class="blood-btn" onclick="openDonorList('O+')">O+</div>
+            <div class="blood-btn" onclick="openDonorList('O-')">O-</div>
+            <div class="blood-btn" onclick="openDonorList('AB+')">AB+</div>
+            <div class="blood-btn" onclick="openDonorList('AB-')">AB-</div>
+            <div class="blood-btn" style="border-color:#777; color:#777" onclick="document.getElementById('bbName').focus()">Add</div>
+        </div>
+
+        <hr>
+        <h4>🩸 രജിസ്റ്റർ ചെയ്യുക</h4>
+        <form id="bloodBankForm">
+            <div class="row">
+                <div class="col-sm-6"><input type="text" class="form-control" id="bbName" placeholder="പേര്" required><br></div>
+                <div class="col-sm-6"><input type="tel" class="form-control" id="bbPhone" placeholder="മൊബൈൽ" required><br></div>
+                <div class="col-sm-12"><input type="text" class="form-control" id="bbAddress" placeholder="സ്ഥലം" required><br></div>
+                <div class="col-sm-12">
+                    <select class="form-control" id="bbGroup" required>
+                        <option value="">ബ്ലഡ് ഗ്രൂപ്പ്</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                    </select><br>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-danger btn-block">Submit Donor Details</button>
+        </form>
+    </div>
+
+    <h3 class="text-center" style="margin-top:30px;">📞 ബന്ധപ്പെടുക</h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="contact-card">
+                <small>സദർ മുഅല്ലിം</small>
+                <h3>മുഹ്സിൻ മന്നാനി</h3>
+                <div class="contact-btn-group">
+                    <a href="tel:7559950633" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+                    <a href="https://wa.me/917559950633" class="contact-btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="contact-card" style="border-left-color: #007bff;">
+                <small>സെക്രട്ടറി</small>
+                <h3>മൊയ്‌ദു പി.കെ</h3>
+                <div class="contact-btn-group">
+                    <a href="tel:8304016701" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+                    <a href="https://wa.me/918304016701" class="contact-btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="contact-card" style="border-left-color: #f1c40f;">
+                <small>മദ്രസ ഇൻ ചാർജ്</small>
+                <h3>ജംഷീർ ദാരിമി</h3>
+                <div class="contact-btn-group">
+                    <a href="tel:9746969716" class="contact-btn btn-call"><i class="fas fa-phone"></i></a>
+                    <a href="https://wa.me/919746969716" class="contact-btn btn-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="card female">
-    <div>
-        <h4>FEMALE</h4>
-        <h2>53</h2>
+<div class="modal fade" id="donorModal" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#d9534f; color:white;">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="modalTitle">Donors</h4>
+            </div>
+            <div class="modal-body" id="modalList"></div>
+        </div>
     </div>
-    <div class="icon">👩</div>
 </div>
 
-<div class="card staff">
-    <div>
-        <h4>STAFFS</h4>
-        <h2>4</h2>
-    </div>
-    <div class="icon">🎓</div>
-</div>
+<footer>© 2026 | Designed & Developed by <span>Muhsin Mannani</span></footer>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBriz_0zYwQOcwVgd3XTQ0l-0NKBNYaZXQ",
+  authDomain: "misbahul-uloom-madrasa-4830c.firebaseapp.com",
+  projectId: "misbahul-uloom-madrasa-4830c",
+  storageBucket: "misbahul-uloom-madrasa-4830c.firebasestorage.app",
+  messagingSenderId: "370558703441",
+  appId: "1:370558703441:web:dc68dbdbd685c9d07ea570"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function openDashboard(){ 
+    window.location.href="https://mannanimuhsin-sys.github.io/my-website/index_7.html"; 
+}
+function openLocation(){ window.open("https://www.google.com/maps", "_blank"); }
+function showResultAlert(){ alert("നിലവിൽ റിസൽട്ടുകൾ ലഭ്യമല്ല."); }
+
+document.getElementById("bloodBankForm").addEventListener("submit", e => {
+    e.preventDefault();
+    db.collection("donors").add({
+        name: document.getElementById("bbName").value,
+        phone: document.getElementById("bbPhone").value,
+        address: document.getElementById("bbAddress").value,
+        group: document.getElementById("bbGroup").value,
+        time: Date.now()
+    }).then(() => {
+        alert("വിജയകരമായി ചേർത്തു!");
+        document.getElementById("bloodBankForm").reset();
+    });
+});
+
+function openDonorList(group) {
+    $('#modalTitle').text(group + " Donors");
+    $('#donorModal').modal('show');
+    const modalList = document.getElementById("modalList");
+    modalList.innerHTML = "തിരയുന്നു...";
+    db.collection("donors").where("group", "==", group).get().then(snap => {
+        modalList.innerHTML = snap.empty ? "ഈ ഗ്രൂപ്പിൽ ആരുമില്ല." : "";
+        snap.forEach(doc => {
+            const d = doc.data();
+            modalList.innerHTML += `
+                <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee;">
+                    <div><b>${d.name}</b><br><small>${d.address}</small></div>
+                    <div>
+                        <a href="tel:${d.phone}" style="color:#007bff; margin-right:10px;"><i class="fas fa-phone"></i></a>
+                        <a href="https://wa.me/91${d.phone}" style="color:#25d366;" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>`;
+        });
+    });
+}
+</script>
 </body>
 </html>
