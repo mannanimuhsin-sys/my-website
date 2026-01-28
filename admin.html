@@ -6,58 +6,35 @@
     <title>Admin Panel | Misbahul Uloom</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #f8f9fa; font-family: 'Poppins', sans-serif; }
-        .navbar { background: #198754; color: white; border-radius: 0; border: none; }
-        .student-card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; align-items: center; position: relative; }
-        .student-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #198754; margin-right: 20px; }
+        body { background: #f4f7f6; font-family: 'Poppins', sans-serif; padding: 20px; }
+        .admin-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .header { background: #198754; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        .student-card { border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: #fff; transition: 0.3s; display: flex; align-items: center; }
+        .student-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .student-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid #198754; }
         .student-info { flex-grow: 1; }
-        .student-info h4 { margin: 0; font-weight: 600; color: #333; }
-        .action-btns { position: absolute; right: 15px; top: 15px; }
-        .btn-edit { color: #f0ad4e; margin-right: 10px; cursor: pointer; font-size: 18px; }
-        .btn-delete { color: #d9534f; cursor: pointer; font-size: 18px; }
-        .modal-content { border-radius: 20px; }
+        .student-info h4 { margin: 0; color: #198754; font-weight: 600; }
+        .student-info p { margin: 2px 0; font-size: 13px; color: #666; }
+        .badge-gender { background: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 5px; font-size: 11px; }
+        .search-box { margin-bottom: 20px; border-radius: 10px; height: 45px; }
     </style>
 </head>
 <body>
 
-<nav class="navbar text-center">
-    <h3>Admin Dashboard - Misbahul Uloom</h3>
-</nav>
+<div class="container admin-container">
+    <div class="header">
+        <h3>മിസ്ബാഹുൽ ഉലൂം - അഡ്മിൻ പാനൽ</h3>
+        <p>ആകെ കുട്ടികൾ: <span id="studentCount">0</span></p>
+    </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h4 class="text-muted">Registered Students</h4>
-            <hr>
-            <div id="studentContainer">Loading list...</div>
-        </div>
+    <input type="text" id="searchInput" class="form-control search-box" placeholder="പേര് അല്ലെങ്കിൽ ക്ലാസ് തിരയുക...">
+
+    <div id="studentList">
+        <p class="text-center">വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>
     </div>
 </div>
 
-<div id="editModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit Details</h4>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="editId">
-        <label>Name:</label><input type="text" id="editName" class="form-control"><br>
-        <label>Class:</label><input type="text" id="editClass" class="form-control"><br>
-        <label>Phone:</label><input type="tel" id="editPhone" class="form-control">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="updateStudent()">Update</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -66,63 +43,62 @@ const firebaseConfig = {
   apiKey: "AIzaSyBriz_0zYwQOcwVgd3XTQ0l-0NKBNYaZXQ",
   authDomain: "misbahul-uloom-madrasa-4830c.firebaseapp.com",
   projectId: "misbahul-uloom-madrasa-4830c",
+  storageBucket: "misbahul-uloom-madrasa-4830c.firebasestorage.app",
+  messagingSenderId: "370558703441",
   appId: "1:370558703441:web:dc68dbdbd685c9d07ea570"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Fetch Data
-db.collection("students").orderBy("time", "desc").onSnapshot(snapshot => {
-    const container = document.getElementById("studentContainer");
-    container.innerHTML = "";
-    if (snapshot.empty) container.innerHTML = "No students registered yet.";
-    
-    snapshot.forEach(doc => {
-        const s = doc.data();
-        const id = doc.id;
-        container.innerHTML += `
-            <div class="student-card">
-                <img src="${s.photo}">
-                <div class="student-info">
-                    <h4>${s.name}</h4>
-                    <small>Class: ${s.class} | Mobile: ${s.phone}</small><br>
-                    <small>Password: <b>${s.password}</b></small>
-                </div>
-                <div class="action-btns">
-                    <i class="fas fa-edit btn-edit" onclick="openEdit('${id}', '${s.name}', '${s.class}', '${s.phone}')"></i>
-                    <i class="fas fa-trash btn-delete" onclick="deleteStudent('${id}')"></i>
-                </div>
-            </div>`;
-    });
-});
+// ഡാറ്റാബേസിൽ നിന്ന് വിവരങ്ങൾ എടുക്കുന്നു
+async function fetchStudents() {
+    const listDiv = document.getElementById("studentList");
+    try {
+        const snapshot = await db.collection("students").orderBy("time", "desc").get();
+        listDiv.innerHTML = "";
+        document.getElementById("studentCount").innerText = snapshot.size;
 
-// Delete Logic
-async function deleteStudent(id) {
-    if(confirm("ഈ വിദ്യാർത്ഥിയുടെ വിവരങ്ങൾ ഒഴിവാക്കട്ടെ?")) {
-        await db.collection("students").doc(id).delete();
-        alert("Deleted Successfully!");
+        if (snapshot.empty) {
+            listDiv.innerHTML = "<p class='text-center'>കുട്ടികളുടെ വിവരങ്ങൾ ലഭ്യമല്ല.</p>";
+            return;
+        }
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const card = `
+                <div class="student-card">
+                    <img src="${data.photo}" class="student-img" alt="Photo">
+                    <div class="student-info">
+                        <h4>${data.name} <span class="badge-gender">${data.gender || 'N/A'}</span></h4>
+                        <p><b>പിതാവ്:</b> ${data.father || 'N/A'}</p>
+                        <p><b>ക്ലാസ്:</b> ${data.class} | <b>ബ്ലഡ്:</b> ${data.blood || 'N/A'}</p>
+                        <p><b>മൊബൈൽ:</b> ${data.phone}</p>
+                    </div>
+                </div>
+            `;
+            listDiv.innerHTML += card;
+        });
+    } catch (err) {
+        listDiv.innerHTML = "<p class='text-center text-danger'>വിവരങ്ങൾ ലഭ്യമാക്കുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
     }
 }
 
-// Edit Logic
-function openEdit(id, name, cls, ph) {
-    document.getElementById("editId").value = id;
-    document.getElementById("editName").value = name;
-    document.getElementById("editClass").value = cls;
-    document.getElementById("editPhone").value = ph;
-    $('#editModal').modal('show');
-}
-
-async function updateStudent() {
-    const id = document.getElementById("editId").value;
-    await db.collection("students").doc(id).update({
-        name: document.getElementById("editName").value,
-        class: document.getElementById("editClass").value,
-        phone: document.getElementById("editPhone").value
+// സെർച്ച് ഫങ്ക്ഷൻ
+document.getElementById("searchInput").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let cards = document.querySelectorAll(".student-card");
+    cards.forEach(card => {
+        let name = card.querySelector("h4").innerText.toLowerCase();
+        let info = card.querySelector(".student-info").innerText.toLowerCase();
+        if (name.includes(filter) || info.includes(filter)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
     });
-    $('#editModal').modal('hide');
-    alert("Updated Successfully!");
-}
+});
+
+fetchStudents();
 </script>
 </body>
 </html>
